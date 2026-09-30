@@ -23,9 +23,18 @@ spec:
     resources:
       requests: { memory: 3Gi, cpu: '1' }
       limits: { memory: 6Gi }
+    volumeMounts:
+    - { name: gradle-cache, mountPath: /root/.gradle }
+    - { name: pub-cache, mountPath: /root/.pub-cache }
   - name: jnlp
     image: jenkins/inbound-agent:latest-jdk21
     imagePullPolicy: IfNotPresent
+  volumes:
+  # node-local caches so a fresh ephemeral pod does not re-download Gradle/pub dependencies every build
+  - name: gradle-cache
+    hostPath: { path: /var/cache/jenkins/gradle, type: DirectoryOrCreate }
+  - name: pub-cache
+    hostPath: { path: /var/cache/jenkins/pub, type: DirectoryOrCreate }
 '''
       defaultContainer 'flutter'
     }
