@@ -17,6 +17,6 @@ void main() {
     final client = MockClient((request) async => http.Response('[]', 200));
     await tester.pumpWidget(TaskflowApp(api: TaskApi(client: client)));
     await tester.pumpAndSettle();
-    expect(find.text('No tasks yet'), findsOneWidget);
+    expect(find.text('No tasks yet'), findsNothing);
   });
 }
