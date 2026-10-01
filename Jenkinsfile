@@ -1,5 +1,6 @@
 // taskflow-mobile pipeline: analyze, test, SCA, debug APK on every branch, signed release AAB on main.
 // Build and test stages run in an ephemeral Kubernetes pod (no static agent).
+// Gradle/pub caches live on the node (hostPath) so new pods start warm.
 def notify(String status) {
   // Slack-format message with branch and build URL, posted to the lab's mock Slack webhook
   def branch = env.BRANCH_NAME ?: 'main'
